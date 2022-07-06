@@ -47,52 +47,64 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Text(
-                'Try to stop the timer at 10:00',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.blue,
-                  fontWeight: FontWeight.w600,
+            const Flexible(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  'Try to stop the timer at 10:00',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TimeComponent(
-                seconds: seconds,
+            Flexible(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TimeComponent(
+                  seconds: seconds,
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: (startStopEnable) ? _startOrStop : null,
-                    child: const Text('Start / Stop'),
-                  ),
-                  ElevatedButton(
-                    onPressed: !counterStarted && seconds > 0
-                        ? () {
-                            setState(() {
-                              seconds = 0;
-                              startStopEnable = true;
-                            });
-                          }
-                        : null,
-                    child: const Text('Reset'),
-                  )
-                ],
+            Flexible(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: (startStopEnable) ? _startOrStop : null,
+                      child: const Text('Start / Stop'),
+                    ),
+                    ElevatedButton(
+                      onPressed: !counterStarted && seconds > 0
+                          ? () {
+                              setState(() {
+                                seconds = 0;
+                                startStopEnable = true;
+                              });
+                            }
+                          : null,
+                      child: const Text('Reset'),
+                    )
+                  ],
+                ),
               ),
             ),
-            Text(
-              (!counterStarted && seconds == 600) ? 'Congratulations!!' : '',
-              style: const TextStyle(
-                fontSize: 30,
-                color: Colors.green,
-                fontWeight: FontWeight.w600,
+            Flexible(
+              flex: 1,
+              child: Text(
+                (!counterStarted && seconds == 600) ? 'Congratulations!!' : '',
+                style: const TextStyle(
+                  fontSize: 30,
+                  color: Colors.green,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             )
           ],

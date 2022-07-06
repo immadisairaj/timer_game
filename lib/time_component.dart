@@ -1,5 +1,5 @@
+import 'package:digital_lcd_number/digital_lcd_number.dart';
 import 'package:flutter/material.dart';
-import 'package:timer_game/lcd_number.dart';
 
 class TimeComponent extends StatelessWidget {
   TimeComponent({
@@ -9,8 +9,34 @@ class TimeComponent extends StatelessWidget {
 
   final int seconds;
 
-  final mainBarColor = Colors.blue;
+  final color = Colors.blue;
   final disabledColor = Colors.blue.shade100;
+
+  Widget _bar(
+      {double height = 10, double width = 10, Color barColor = Colors.grey}) {
+    return Container(
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(50), boxShadow: [
+        BoxShadow(
+          color: barColor.withAlpha(220),
+          blurRadius: 10.0,
+          spreadRadius: 10.0,
+          offset: const Offset(
+            0.0,
+            0.0,
+          ),
+        ),
+      ]),
+      child: Container(
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          color: barColor,
+        ),
+      ),
+    );
+  }
 
   Widget _hyphen() {
     return Padding(
@@ -20,15 +46,15 @@ class TimeComponent extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            LcdNumber.bar(
+            _bar(
               height: 5,
               width: 5,
-              barColor: mainBarColor,
+              barColor: color,
             ),
-            LcdNumber.bar(
+            _bar(
               height: 5,
               width: 5,
-              barColor: mainBarColor,
+              barColor: color,
             ),
           ],
         ),
@@ -38,32 +64,52 @@ class TimeComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          LcdNumber(
-            number: ((seconds ~/ 60) ~/ 10) % 10,
-            mainBarColor: mainBarColor,
-            disabledColor: disabledColor,
-          ),
-          LcdNumber(
-            number: (seconds ~/ 60) % 10,
-            mainBarColor: mainBarColor,
-            disabledColor: disabledColor,
-          ),
-          _hyphen(),
-          LcdNumber(
-            number: ((seconds % 60) ~/ 10) % 10,
-            mainBarColor: mainBarColor,
-            disabledColor: disabledColor,
-          ),
-          LcdNumber(
-            number: (seconds % 60) % 10,
-            mainBarColor: mainBarColor,
-            disabledColor: disabledColor,
-          ),
-        ],
+      child: Padding(
+        padding: isLandscape
+            ? EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width / 6)
+            : const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              flex: 1,
+              child: DigitalLcdNumber(
+                number: ((seconds ~/ 60) ~/ 10) % 10,
+                color: color,
+                disabledColor: disabledColor,
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: DigitalLcdNumber(
+                number: (seconds ~/ 60) % 10,
+                color: color,
+                disabledColor: disabledColor,
+              ),
+            ),
+            _hyphen(),
+            Flexible(
+              flex: 1,
+              child: DigitalLcdNumber(
+                number: ((seconds % 60) ~/ 10) % 10,
+                color: color,
+                disabledColor: disabledColor,
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: DigitalLcdNumber(
+                number: (seconds % 60) % 10,
+                color: color,
+                disabledColor: disabledColor,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
